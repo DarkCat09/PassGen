@@ -67,7 +67,7 @@ except ValueError:
     rus_locale = bool(0)
 print("")
 
-old_strs = []
+#old_strs = []
 join_signs = ["", "_", "-", "&", "%", "+", "*", "#", "@", "$"]
 dicdata = [
     "",
@@ -83,6 +83,7 @@ dicdata = [
     target_personal_data[5][3:], target_personal_data[5][1:2] + target_personal_data[5][3:]
 ]
 data_functions = [lowstr, uppstr, capstr]
+same_funcs_were = False # Did the same data-functions were?
 dicfile = open("dictionary.txt", "wt", encoding="utf-8")
 
 try:
@@ -92,28 +93,54 @@ try:
                 for l in range(len(dicdata)-1):
                     if not ((dicdata[i] + dicdata[j] + dicdata[k] + dicdata[l]) == ""):
                         for dfunc1 in data_functions:
+                            same_funcs_were = False
                             for dfunc2 in data_functions:
                                 for dfunc3 in data_functions:
                                     for dfunc4 in data_functions:
+                                        if same_funcs_were:
+                                            continue
+                                        elif dfunc1 == dfunc2 and \
+                                             dfunc2 == dfunc3 and \
+                                             dfunc3 == dfunc4 and \
+                                             not same_funcs_were:
+                                            same_funcs_were = True
                                         for jsign1 in join_signs:
                                             for jsign2 in join_signs:
                                                 for jsign3 in join_signs:
-                                                        
+
                                                     result_string = \
                                                                   dfunc1(dicdata[i]) + jsign1 + \
                                                                   dfunc2(dicdata[j]) + jsign2 + \
                                                                   dfunc3(dicdata[k]) + jsign3 + \
                                                                   dfunc4(dicdata[l])
-                                                                
-                                                    for oldstr in old_strs:
-                                                        if oldstr == result_string:
-                                                            break
-                                                    else:
-                                                        print(result_string)
-                                                        dicfile.write(result_string + "\n")
-                                                        if len(old_strs) > 27:
-                                                            old_strs.clear()
-                                                        old_strs.append(result_string)
+                                                    
+                                                    print(result_string)
+                                                    dicfile.write(result_string + "\n")
+                                                    
+##                                                    if dfunc1 == dfunc2 and \
+##                                                       dfunc2 == dfunc3 and \
+##                                                       dfunc3 == dfunc4:
+##                                                        if not same_funcs_were:
+##                                                            result_string = \
+##                                                                          dfunc1(dicdata[i]) + jsign1 + \
+##                                                                          dfunc2(dicdata[j]) + jsign2 + \
+##                                                                          dfunc3(dicdata[k]) + jsign3 + \
+##                                                                          dfunc4(dicdata[l])
+##                                                            
+##                                                            print(result_string)
+##                                                            dicfile.write(result_string + "\n")
+##                                                            same_funcs_were = True
+
+##                                                    if len(old_strs) > 989:
+##                                                            old_strs.clear()
+##                                                                
+##                                                    for oldstr in old_strs:
+##                                                        if oldstr == result_string:
+##                                                            break
+##                                                    else:
+##                                                        print(result_string)
+##                                                        dicfile.write(result_string + "\n")
+##                                                    old_strs.append(result_string)
 
 ##                            for dfindex in range(81):
 ##                                
